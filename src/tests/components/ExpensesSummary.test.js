@@ -5,23 +5,17 @@ import { shallow } from 'enzyme';
 
 let expenseCount, expensesTotal, wrapper;
 beforeEach(() => {
-    expenseCount = 1;
-    expensesTotal = 9434;
     wrapper = shallow(<ExpensesSummary
-        expenseCount={expenseCount}
-        expensesTotal={expensesTotal}
+        expenseCount={1}
+        expensesTotal={9434}
     />);
 });
 
-test('Should render ExpensesSummary correctly', () => {
+test('Should render ExpensesSummary correctly with 1 expense', () => {
     expect(wrapper).toMatchSnapshot();
 });
 
-test('Should render render ExpensesSummary with 1 expense info', () => {
-    expect(wrapper.find('h4').text()).toBe('viewing 1 expense totalling $94.34');
-});
-
-test('Should render render ExpensesSummary with 2 expense info', () => {
-    wrapper.setProps({expenseCount: 2});
-    expect(wrapper.find('h4').text()).toBe('viewing 2 expenses totalling $94.34');
+test('Should render ExpensesSummary correctly with multiple expenses', () => {
+    wrapper.setProps({expenseCount: 10, expensesTotal: 524090});
+    expect(wrapper).toMatchSnapshot();
 });
