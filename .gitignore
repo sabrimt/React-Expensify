@@ -1,3 +1,5 @@
 node_modules/
 public/assets/
 git_readme.md
+.env.development
+.env.test
