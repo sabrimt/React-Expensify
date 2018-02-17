@@ -2,7 +2,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import {
     addExpense, startAddExpense,
-    editExpense,
+    editExpense, startEditExpense,
     removeExpense, startRemoveExpense,
     setExpenses, startSetExpenses
 } from '../../actions/expenses';
@@ -19,6 +19,7 @@ beforeEach((done) => {
     database.ref('expenses').set(expensesData).then(() => done());
 });
 
+// Remove expense
 test('Should setup remove expense action object', () => {
     const action = removeExpense({id: '123abc'});
     expect(action).toEqual({
@@ -45,6 +46,7 @@ test('Should remove expenses from firebase', (done) => {
     });
 });
 
+// Edit expense
 test('Should setup edit expense action object', () => {
     const action = editExpense('123test', { note: 'Check this note', expense: 'testing bill' });
     expect(action).toEqual({
@@ -57,6 +59,27 @@ test('Should setup edit expense action object', () => {
     });
 });
 
+test('Should edit expenses from firebase', (done) => {
+    const store = createMockStore({});
+    const id = expenses[2].id;
+    const updates = { amount: 1985 };
+
+    store.dispatch(startEditExpense(id, updates)).then(() => {
+        const actions = store.getActions();
+        expect(actions[0]).toEqual({
+            type: 'EDIT_EXPENSE',
+            id,
+            updates
+        });
+
+        return database.ref(`expenses/${id}`).once('value');
+    }).then((snapshot) => {
+        expect(snapshot.val().amount).toEqual(updates.amount);
+        done();
+    });
+});
+
+// Add Expense
 test('Should setup add expense action object with provided values', () => {
     const action = addExpense(expenses[2]);
     expect(action).toEqual({
@@ -90,6 +113,7 @@ test('Should add expense to database and store', (done) => {
         done();
     });
 });
+
 test('Should add expense with defaults to database and store', (done) => {
     const store = createMockStore({});
     const expenseDefaults = {
@@ -116,6 +140,7 @@ test('Should add expense with defaults to database and store', (done) => {
     });
 });
 
+// Set Expenses
 test('Should setup set expense action object with data', () => {
     const action = setExpenses(expenses);
     expect(action).toEqual({
