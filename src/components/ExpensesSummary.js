@@ -15,9 +15,11 @@ export const ExpensesSummary = ({ expenseCount, expensesTotal, storedExpensesCou
             <h1 className="page-header__title">
                 viewing <span>{expenseCount}</span> {expenseWord} totalling <span>{formattedExpensesTotal}</span>
             </h1>
-            <small className="page-header__sub-title">
-                <span>{storedExpensesCount}</span> stored Expenses. Clear date filter to view.
-            </small>
+            {storedExpensesCount > expenseCount && (
+                <small className="page-header__sub-title">
+                    <span>{storedExpensesCount}</span> stored Expenses. Clear date filter to view.
+                </small>
+            )}
             <div className="page-header__actions">
                 <Link className="button" to="/create">Add Expense</Link>
             </div>
