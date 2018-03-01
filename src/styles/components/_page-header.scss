@@ -5,7 +5,7 @@
 }
 
 .page-header__actions {
-    margin-top: $m-size;
+    margin-top: $l-size;
 }
 
 .page-header__title {
@@ -13,5 +13,15 @@
     margin: 0;
     span {
         font-weight: 700;
+    }
+}
+
+.page-header__sub-title {
+    color: $grey;
+    font-style: italic;
+    font-weight: 300;
+    margin: 0;
+    span {
+        font-weight: 600;
     }
 }
